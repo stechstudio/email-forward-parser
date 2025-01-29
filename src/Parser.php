@@ -424,6 +424,7 @@ class Parser
     {
         $minLength = $mode === "split" ? 1 : 0;
         $maxLength = strlen($str);
+        $match = null;
 
         foreach ($regexes as $regex) {
             $currentMatch = [];
