@@ -362,6 +362,20 @@ class ParserTest extends TestCase
         );
 
         error_reporting($reportingLevel);
-        $this->assertEquals(false, $result);
+        $this->assertEquals([
+            "forwarded" => true,
+            "message" => null,
+            "email" => [
+                "body" => null,
+                "from" => [
+                    "address" => null,
+                    "name" => null,
+                ],
+                "to" => null,
+                "cc" => null,
+                "subject" => "This subject looks like a forward",
+                "date" => null,
+            ],
+        ], $result);
     }
 }

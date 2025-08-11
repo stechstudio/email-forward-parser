@@ -28,7 +28,7 @@ class Parser
         if (!$subject || $forwarded) {
             $result = $this->parseBody($body, $forwarded);
 
-            if ($result['email']) {
+            if ($result['email'] ?? false) {
                 $forwarded = true;
                 $email = $this->parseOriginalEmail($result['email'], $result['body']);
             }
