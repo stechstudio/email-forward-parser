@@ -1,4 +1,5 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
 use STS\EmailForward\Parser;
 
@@ -349,5 +350,32 @@ class ParserTest extends TestCase
         });
     }
 
-    // Additional test methods for other variants can be added here...
+    public function testForwardWithSubjectButNoBlock()
+    {
+        $reportingLevel = error_reporting();
+        // This case is only hit if warnings are enabled
+        error_reporting($reportingLevel | E_WARNING);
+
+        $result = (new Parser())->read(
+            body: "This body has no forward information",
+            subject: "FW: This subject looks like a forward",
+        );
+
+        error_reporting($reportingLevel);
+        $this->assertEquals([
+            "forwarded" => true,
+            "message" => null,
+            "email" => [
+                "body" => null,
+                "from" => [
+                    "address" => null,
+                    "name" => null,
+                ],
+                "to" => null,
+                "cc" => null,
+                "subject" => "This subject looks like a forward",
+                "date" => null,
+            ],
+        ], $result);
+    }
 }
